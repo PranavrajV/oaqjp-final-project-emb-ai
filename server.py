@@ -1,3 +1,15 @@
+"""
+Flask web server for the Emotion Detector application.
+
+This module exposes two routes:
+    - '/' : renders the main HTML page for user interaction.
+    - '/emotionDetector' : accepts a 'textToAnalyze' query parameter,
+      passes it to the emotion_detector function, and returns a
+      formatted string describing the detected emotions and the
+      dominant emotion for the given text.
+
+Run this file directly to start the development server on port 5000.
+"""
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
 app = Flask('Emotion Detection')
@@ -15,16 +27,10 @@ def emo_detector():
         return "Invalid text! Please try again!"
 
     return (
-        "For the given statement, the system response is 'anger': {}, "
-        "'disgust': {}, 'fear': {}, 'joy': {} and 'sadness': {}. "
-        "The dominant emotion is {}.".format(
-            response["anger"],
-            response["disgust"],
-            response["fear"],
-            response["joy"],
-            response["sadness"],
-            response["dominant_emotion"],
-        )
+        f"For the given statement, the system response is 'anger': {response['anger']}, "
+        f"'disgust': {response['disgust']}, 'fear': {response['fear']}, "
+        f"'joy': {response['joy']} and 'sadness': {response['sadness']}. "
+        f"The dominant emotion is {response['dominant_emotion']}."
     )
 
 @app.route('/')
@@ -36,4 +42,3 @@ def render_index_page():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
-
